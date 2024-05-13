@@ -1,5 +1,5 @@
 'use client';
-import { register } from '@/actions/register';
+import { register } from '@/actions/auth/register';
 import { CardContainer } from '@/components/auth/card-container';
 import { FormErrors } from '@/components/form-errors';
 import { FormSuccess } from '@/components/form-success';

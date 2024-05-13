@@ -1,5 +1,5 @@
 'use client';
-import { login } from '@/actions/login';
+import { login } from '@/actions/auth/login';
 import { CardContainer } from '@/components/auth/card-container';
 import { FormErrors } from '@/components/form-errors';
 import { FormSuccess } from '@/components/form-success';
@@ -20,6 +20,8 @@ import { useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { RocketIcon } from '@radix-ui/react-icons';
 
 interface ILoginForm {}
 
@@ -38,8 +40,8 @@ export const LoginForm: React.FC<ILoginForm> = ({}) => {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'test@test.com',
+      password: '123456',
     },
     shouldUnregister: false,
   });
@@ -84,6 +86,14 @@ export const LoginForm: React.FC<ILoginForm> = ({}) => {
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <Alert>
+            <RocketIcon className="h-4 w-4" />
+            <AlertTitle>Testing User!</AlertTitle>
+            <AlertDescription>
+              <p>Email: test@test.com</p>
+              <p>Password: 123456</p>
+            </AlertDescription>
+          </Alert>
           <div className="space-y-4">
             {showTwoFactor && (
               <FormField

@@ -1,5 +1,5 @@
 'use client';
-import { newPassword } from '@/actions/new-password';
+import { newPassword } from '@/actions/auth/new-password';
 import { CardContainer } from '@/components/auth/card-container';
 import { FormErrors } from '@/components/form-errors';
 import { FormSuccess } from '@/components/form-success';

@@ -1,4 +1,5 @@
 import { NextPage } from 'next';
+import Image from 'next/image';
 
 interface Props {
   children: React.ReactNode;
@@ -6,8 +7,11 @@ interface Props {
 
 const AuthLayout: NextPage<Props> = ({ children }) => {
   return (
-    <div className="flex h-full items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
-      {children}
+    <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
+      <div className="flex items-center justify-center">{children}</div>
+      <div className="hidden items-center justify-center bg-blue-600 lg:flex">
+        <Image src="/logo-100-white.svg" width={100} height={100} alt="logo" />
+      </div>
     </div>
   );
 };

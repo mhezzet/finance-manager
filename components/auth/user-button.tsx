@@ -1,4 +1,3 @@
-'use client';
 import { LogoutButton } from '@/components/auth/logout-button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -7,20 +6,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useCurrentUser } from '@/hooks/use-current-user';
+import { currentUser } from '@/lib/auth';
 import { ExitIcon } from '@radix-ui/react-icons';
 import { FaUser } from 'react-icons/fa';
 
 interface IUserButton {}
 
-export const UserButton: React.FC<IUserButton> = ({}) => {
-  const user = useCurrentUser();
+export const UserButton: React.FC<IUserButton> = async ({}) => {
+  const user = await currentUser();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar>
+        <Avatar className="size-8">
           <AvatarImage src={user?.image || ''} />
-          <AvatarFallback className="bg-sky-500">
+          <AvatarFallback className="bg-blue-500">
             <FaUser className="text-white" />
           </AvatarFallback>
         </Avatar>

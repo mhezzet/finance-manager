@@ -1,5 +1,5 @@
 'use client';
-import { newVerification } from '@/actions/verification';
+import { newVerification } from '@/actions/auth/verification';
 import { CardContainer } from '@/components/auth/card-container';
 import { FormErrors } from '@/components/form-errors';
 import { FormSuccess } from '@/components/form-success';

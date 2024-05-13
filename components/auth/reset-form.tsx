@@ -1,5 +1,5 @@
 'use client';
-import { reset } from '@/actions/reset';
+import { reset } from '@/actions/auth/reset';
 import { CardContainer } from '@/components/auth/card-container';
 import { FormErrors } from '@/components/form-errors';
 import { FormSuccess } from '@/components/form-success';
