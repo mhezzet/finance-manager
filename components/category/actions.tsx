@@ -1,6 +1,6 @@
 'use client';
 
-import { deleteAccount } from '@/actions/spaces/delete-account';
+import { deleteCategory } from '@/actions/categories/delete-category';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -22,7 +22,7 @@ interface IActions {
 export const Actions: React.FC<IActions> = ({ id, name }) => {
   const [ConfirmDialog, confirm] = useConfirm(
     'Are you sure?',
-    'You are about to delete this account.',
+    'You are about to delete this category.',
   );
   const [, setNameState] = useQueryState('name');
   const [, setIdState] = useQueryState('id');
@@ -37,14 +37,14 @@ export const Actions: React.FC<IActions> = ({ id, name }) => {
     const ok = await confirm();
     if (!ok) return;
     startTransition(async () => {
-      const { error, success } = await deleteAccount(id);
+      const { error, success } = await deleteCategory(id);
 
       if (error) {
         toast.error(error);
       }
 
       if (success) {
-        toast.success('Account Deleted!');
+        toast.success('Category Deleted!');
       }
     });
   };

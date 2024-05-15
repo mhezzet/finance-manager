@@ -1,8 +1,8 @@
 'use client';
 
-import { deleteAccount } from '@/actions/spaces/delete-account';
-import { updateAccount } from '@/actions/spaces/edit-account';
-import { AccountForm } from '@/components/space/account-form';
+import { deleteCategory } from '@/actions/categories/delete-category';
+import { updateCategory } from '@/actions/categories/edit-category';
+import { CategoryForm } from '@/components/category/category-form';
 import {
   Sheet,
   SheetContent,
@@ -18,9 +18,9 @@ import { useEffect, useTransition } from 'react';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
-interface IUpdateAccountSheet {}
+interface IUpdateCategorySheet {}
 
-export const UpdateAccountSheet: React.FC<IUpdateAccountSheet> = ({}) => {
+export const UpdateCategorySheet: React.FC<IUpdateCategorySheet> = ({}) => {
   const [name, setName] = useQueryState('name');
   const [id, setId] = useQueryState('id');
 
@@ -28,7 +28,7 @@ export const UpdateAccountSheet: React.FC<IUpdateAccountSheet> = ({}) => {
   const [isPending, startTransition] = useTransition();
   const [ConfirmDialog, confirm] = useConfirm(
     'Are you sure?',
-    'You are about to delete this account',
+    'You are about to delete this category',
   );
 
   useEffect(() => {
@@ -39,14 +39,14 @@ export const UpdateAccountSheet: React.FC<IUpdateAccountSheet> = ({}) => {
 
   const onSubmit = (values: z.infer<typeof CreateSpaceSchema>) => {
     startTransition(async () => {
-      const { error, success } = await updateAccount(values, id || '');
+      const { error, success } = await updateCategory(values, id || '');
 
       if (error) {
         toast.error(error);
       }
 
       if (success) {
-        toast.success('Account Updated!');
+        toast.success('Category Updated!');
         closeHandler();
       }
     });
@@ -56,14 +56,14 @@ export const UpdateAccountSheet: React.FC<IUpdateAccountSheet> = ({}) => {
     const ok = await confirm();
     if (!ok) return;
     startTransition(async () => {
-      const { error, success } = await deleteAccount(id || '');
+      const { error, success } = await deleteCategory(id || '');
 
       if (error) {
         toast.error(error);
       }
 
       if (success) {
-        toast.success('Account Deleted!');
+        toast.success('Category Deleted!');
         closeHandler();
       }
     });
@@ -81,11 +81,11 @@ export const UpdateAccountSheet: React.FC<IUpdateAccountSheet> = ({}) => {
       <Sheet open={isOpen} onOpenChange={closeHandler}>
         <SheetContent className="px-2">
           <SheetHeader>
-            <SheetTitle>Edit Account</SheetTitle>
-            <SheetDescription>Edit an Existing account.</SheetDescription>
+            <SheetTitle>Edit Category</SheetTitle>
+            <SheetDescription>Edit an Existing category.</SheetDescription>
           </SheetHeader>
 
-          <AccountForm
+          <CategoryForm
             defaultValues={{ name: name || '' }}
             id={id || ''}
             onSubmit={onSubmit}
