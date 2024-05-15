@@ -10,6 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
+import { useConfirm } from '@/hooks/use-confirm';
 import { useUpdateAccount } from '@/hooks/use-update-account';
 import { CreateSpaceSchema } from '@/schemas/space';
 import { useQueryState } from 'nuqs';
@@ -25,6 +26,10 @@ export const UpdateAccountSheet: React.FC<IUpdateAccountSheet> = ({}) => {
 
   const { isOpen, onClose, onOpen } = useUpdateAccount();
   const [isPending, startTransition] = useTransition();
+  const [ConfirmDialog, confirm] = useConfirm(
+    'Are you sure?',
+    'You are about to delete this transaction',
+  );
 
   useEffect(() => {
     if (!id || !name) return;
@@ -47,7 +52,9 @@ export const UpdateAccountSheet: React.FC<IUpdateAccountSheet> = ({}) => {
     });
   };
 
-  const onDelete = (id: string) => {
+  const onDelete = async (id: string) => {
+    const ok = await confirm();
+    if (!ok) return;
     startTransition(async () => {
       const { error, success } = await deleteAccount(id || '');
 
@@ -69,21 +76,24 @@ export const UpdateAccountSheet: React.FC<IUpdateAccountSheet> = ({}) => {
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={closeHandler}>
-      <SheetContent className="px-2">
-        <SheetHeader>
-          <SheetTitle>New Account</SheetTitle>
-          <SheetDescription>Create a new account to track your transactions.</SheetDescription>
-        </SheetHeader>
+    <>
+      <ConfirmDialog />
+      <Sheet open={isOpen} onOpenChange={closeHandler}>
+        <SheetContent className="px-2">
+          <SheetHeader>
+            <SheetTitle>New Account</SheetTitle>
+            <SheetDescription>Create a new account to track your transactions.</SheetDescription>
+          </SheetHeader>
 
-        <AccountForm
-          defaultValues={{ name: name || '' }}
-          id={id || ''}
-          onSubmit={onSubmit}
-          disabled={isPending}
-          onDelete={onDelete}
-        />
-      </SheetContent>
-    </Sheet>
+          <AccountForm
+            defaultValues={{ name: name || '' }}
+            id={id || ''}
+            onSubmit={onSubmit}
+            disabled={isPending}
+            onDelete={onDelete}
+          />
+        </SheetContent>
+      </Sheet>
+    </>
   );
 };
