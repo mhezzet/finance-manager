@@ -1,7 +1,7 @@
 import { HeaderLogo } from '@/components/header-logo';
 import { Navigation } from '@/components/navigation';
 import { UserButton } from '@/components/auth/user-button';
-import { WelcomeMsg } from './welcome-msg';
+import { WelcomeMsg } from '@/components/welcome-msg';
 
 interface IHeader {}
 

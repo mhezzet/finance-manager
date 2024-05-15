@@ -1,6 +1,6 @@
 import { getUserByEmail } from '@/data/user';
 import { env } from '@/env.mjs';
-import { LoginSchema } from '@/schemas';
+import { LoginSchema } from '@/schemas/auth';
 import bcrypt from 'bcryptjs';
 import type { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';

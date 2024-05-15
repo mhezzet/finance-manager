@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { NewPasswordSchema } from '@/schemas';
+import { NewPasswordSchema } from '@/schemas/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';

@@ -1,7 +1,11 @@
+import { getAccounts } from '@/data/space';
+import { currentUser } from '@/lib/auth';
 import { NextPage } from 'next';
 
-const HomePage: NextPage = ({}) => {
-  return <>HomePage</>;
+export const revalidate = 5;
+
+const HomePage: NextPage = async ({}) => {
+  return <>Home</>;
 };
 
 export default HomePage;
