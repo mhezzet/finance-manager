@@ -29,6 +29,8 @@ export const updateCategory = async (values: z.infer<typeof CreateCategorySchema
   await db.category.update({ where: { userId: dbUser.id, id }, data: { name: values.name } });
 
   revalidateTag('categories');
+  revalidateTag('transactions');
+
   revalidateTag(id);
 
   return { success: 'Category updated!' };

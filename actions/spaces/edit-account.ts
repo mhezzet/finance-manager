@@ -29,6 +29,7 @@ export const updateAccount = async (values: z.infer<typeof CreateSpaceSchema>, i
   await db.space.update({ where: { userId: dbUser.id, id }, data: { name: values.name } });
 
   revalidateTag('accounts');
+  revalidateTag('transactions');
   revalidateTag(id);
 
   return { success: 'Account updated!' };

@@ -23,6 +23,7 @@ export const deleteAccount = async (id: string) => {
   await db.space.delete({ where: { userId: dbUser.id, id } });
 
   revalidateTag('accounts');
+  revalidateTag('transactions');
   revalidateTag(id);
 
   return { success: 'Account deleted!' };

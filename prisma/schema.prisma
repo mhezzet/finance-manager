@@ -89,15 +89,30 @@ model TwoFactorConfirmation {
 }
 
 model Space {
-  id     String @id @default(cuid())
-  name   String
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String        @id @default(cuid())
+  name        String
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transaction Transaction[]
 }
 
 model Category {
-  id     String @id @default(cuid())
-  name   String
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String        @id @default(cuid())
+  name        String
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transaction Transaction[]
+}
+
+model Transaction {
+  id         String   @id @default(cuid())
+  amount     String
+  payee      String
+  notes      String?
+  date       DateTime
+  spaceId    String
+  categoryId String?
+
+  space    Space     @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 }

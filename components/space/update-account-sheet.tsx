@@ -10,36 +10,27 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
+import { useAccountModal } from '@/hooks/use-account-modal';
 import { useConfirm } from '@/hooks/use-confirm';
-import { useUpdateAccount } from '@/hooks/use-update-account';
 import { CreateSpaceSchema } from '@/schemas/space';
-import { useQueryState } from 'nuqs';
-import { useEffect, useTransition } from 'react';
+import { useTransition } from 'react';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
 interface IUpdateAccountSheet {}
 
 export const UpdateAccountSheet: React.FC<IUpdateAccountSheet> = ({}) => {
-  const [name, setName] = useQueryState('name');
-  const [id, setId] = useQueryState('id');
+  const { isOpen, onClose, account, resetAccount } = useAccountModal();
 
-  const { isOpen, onClose, onOpen } = useUpdateAccount();
   const [isPending, startTransition] = useTransition();
   const [ConfirmDialog, confirm] = useConfirm(
     'Are you sure?',
     'You are about to delete this account',
   );
 
-  useEffect(() => {
-    if (!id || !name) return;
-
-    onOpen();
-  }, [id, name, onOpen]);
-
   const onSubmit = (values: z.infer<typeof CreateSpaceSchema>) => {
     startTransition(async () => {
-      const { error, success } = await updateAccount(values, id || '');
+      const { error, success } = await updateAccount(values, account?.id || '');
 
       if (error) {
         toast.error(error);
@@ -71,8 +62,7 @@ export const UpdateAccountSheet: React.FC<IUpdateAccountSheet> = ({}) => {
 
   const closeHandler = () => {
     onClose();
-    setName(null);
-    setId(null);
+    resetAccount();
   };
 
   return (
@@ -86,8 +76,8 @@ export const UpdateAccountSheet: React.FC<IUpdateAccountSheet> = ({}) => {
           </SheetHeader>
 
           <AccountForm
-            defaultValues={{ name: name || '' }}
-            id={id || ''}
+            defaultValues={{ name: account?.name || '' }}
+            id={account?.id || ''}
             onSubmit={onSubmit}
             disabled={isPending}
             onDelete={onDelete}

@@ -8,9 +8,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useCategoryModal } from '@/hooks/use-category-modal';
 import { useConfirm } from '@/hooks/use-confirm';
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
-import { useQueryState } from 'nuqs';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 
@@ -24,13 +24,14 @@ export const Actions: React.FC<IActions> = ({ id, name }) => {
     'Are you sure?',
     'You are about to delete this category.',
   );
-  const [, setNameState] = useQueryState('name');
-  const [, setIdState] = useQueryState('id');
+
   const [isPending, startTransition] = useTransition();
 
+  const { setCategory, onOpen } = useCategoryModal();
+
   const onEdit = () => {
-    setNameState(name);
-    setIdState(id);
+    setCategory({ id, name });
+    onOpen();
   };
 
   const onDelete = async () => {

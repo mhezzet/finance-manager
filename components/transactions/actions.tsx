@@ -1,6 +1,8 @@
 'use client';
 
-import { deleteAccount } from '@/actions/spaces/delete-account';
+import { deleteCategory } from '@/actions/categories/delete-category';
+import { deleteTransaction } from '@/actions/transactions/delete-transaction';
+import { Transaction } from '@/components/transactions/columns';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -8,29 +10,28 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAccountModal } from '@/hooks/use-account-modal';
 import { useConfirm } from '@/hooks/use-confirm';
+import { useTransactionModal } from '@/hooks/use-transaction-modal';
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 
 interface IActions {
-  id: string;
-  name: string;
+  transaction: Transaction;
 }
 
-export const Actions: React.FC<IActions> = ({ id, name }) => {
+export const Actions: React.FC<IActions> = ({ transaction }) => {
   const [ConfirmDialog, confirm] = useConfirm(
     'Are you sure?',
-    'You are about to delete this account.',
+    'You are about to delete this transaction.',
   );
+
+  const { setTransaction, onOpen } = useTransactionModal();
 
   const [isPending, startTransition] = useTransition();
 
-  const { setAccount, onOpen } = useAccountModal();
-
   const onEdit = () => {
-    setAccount({ id, name });
+    setTransaction(transaction);
     onOpen();
   };
 
@@ -38,14 +39,14 @@ export const Actions: React.FC<IActions> = ({ id, name }) => {
     const ok = await confirm();
     if (!ok) return;
     startTransition(async () => {
-      const { error, success } = await deleteAccount(id);
+      const { error, success } = await deleteTransaction(transaction.id);
 
       if (error) {
         toast.error(error);
       }
 
       if (success) {
-        toast.success('Account Deleted!');
+        toast.success('Transaction Deleted!');
       }
     });
   };

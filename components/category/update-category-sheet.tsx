@@ -11,9 +11,8 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { useConfirm } from '@/hooks/use-confirm';
-import { useUpdateAccount } from '@/hooks/use-update-account';
+import { useCategoryModal } from '@/hooks/use-category-modal';
 import { CreateSpaceSchema } from '@/schemas/space';
-import { useQueryState } from 'nuqs';
 import { useEffect, useTransition } from 'react';
 import { toast } from 'sonner';
 import * as z from 'zod';
@@ -21,25 +20,17 @@ import * as z from 'zod';
 interface IUpdateCategorySheet {}
 
 export const UpdateCategorySheet: React.FC<IUpdateCategorySheet> = ({}) => {
-  const [name, setName] = useQueryState('name');
-  const [id, setId] = useQueryState('id');
+  const { isOpen, onClose, category, resetCategory } = useCategoryModal();
 
-  const { isOpen, onClose, onOpen } = useUpdateAccount();
   const [isPending, startTransition] = useTransition();
   const [ConfirmDialog, confirm] = useConfirm(
     'Are you sure?',
     'You are about to delete this category',
   );
 
-  useEffect(() => {
-    if (!id || !name) return;
-
-    onOpen();
-  }, [id, name, onOpen]);
-
   const onSubmit = (values: z.infer<typeof CreateSpaceSchema>) => {
     startTransition(async () => {
-      const { error, success } = await updateCategory(values, id || '');
+      const { error, success } = await updateCategory(values, category?.id || '');
 
       if (error) {
         toast.error(error);
@@ -71,8 +62,7 @@ export const UpdateCategorySheet: React.FC<IUpdateCategorySheet> = ({}) => {
 
   const closeHandler = () => {
     onClose();
-    setName(null);
-    setId(null);
+    resetCategory();
   };
 
   return (
@@ -86,8 +76,8 @@ export const UpdateCategorySheet: React.FC<IUpdateCategorySheet> = ({}) => {
           </SheetHeader>
 
           <CategoryForm
-            defaultValues={{ name: name || '' }}
-            id={id || ''}
+            defaultValues={{ name: category?.name || '' }}
+            id={category?.id || ''}
             onSubmit={onSubmit}
             disabled={isPending}
             onDelete={onDelete}
