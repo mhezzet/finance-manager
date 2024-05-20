@@ -1,11 +1,26 @@
 import { db } from '@/lib/db';
 import { calculatePercentageChange, fillMissingDays } from '@/lib/utils';
-import { parse, subDays, differenceInDays } from 'date-fns';
+import { parse, subDays, addDays, differenceInDays } from 'date-fns';
 import { unstable_cache } from 'next/cache';
 
+export type Summary = {
+  remainingAmount: number;
+  remainingChange: number;
+  incomeAmount: number;
+  inComeChange: number;
+  expensesAmount: number;
+  expensesChange: number;
+  categories: Record<string, number>;
+  days: {
+    date: Date;
+    expenses: number;
+    income: number;
+  }[];
+};
+
 export const getSummary = unstable_cache(
-  async (userId, from, to, accountId) => {
-    const defaultTo = new Date();
+  async (userId: string, from?: string, to?: string, accountId?: string): Promise<Summary> => {
+    const defaultTo = addDays(new Date(), 1);
     const defaultFrom = subDays(defaultTo, 30);
 
     const startDate = from ? parse(from, 'yyyy-MM-dd', new Date()) : defaultFrom;
@@ -112,7 +127,7 @@ export const getSummary = unstable_cache(
     const activeDays = Object.entries(activities).map(([date, amounts]) => {
       const expenses = amounts
         .filter((amount) => amount < 0)
-        .reduce((sum, amount) => sum + amount, 0);
+        .reduce((sum, amount) => sum + Math.abs(amount), 0);
       const income = amounts
         .filter((amount) => amount >= 0)
         .reduce((sum, amount) => sum + amount, 0);
