@@ -20,12 +20,20 @@ export enum Variants {
 interface ITransactionPage {
   searchParams: {
     view?: Variants;
+    from?: string;
+    to?: string;
+    accountId?: string;
   };
 }
 
 const TransactionPage: NextPage<ITransactionPage> = async ({ searchParams }) => {
   const user = await currentUser();
-  const transactions = await getTransactions(user?.id || '');
+  const transactions = await getTransactions(
+    user?.id || '',
+    searchParams.to,
+    searchParams.from,
+    searchParams.accountId,
+  );
   const accounts = await getAccounts(user?.id || '');
   const categories = await getCategories(user?.id || '');
 

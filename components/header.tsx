@@ -2,6 +2,7 @@ import { HeaderLogo } from '@/components/header-logo';
 import { Navigation } from '@/components/navigation';
 import { UserButton } from '@/components/auth/user-button';
 import { WelcomeMsg } from '@/components/welcome-msg';
+import { Filters } from '@/components/filters';
 
 interface IHeader {}
 
@@ -18,6 +19,7 @@ export const Header: React.FC<IHeader> = ({}) => {
         </div>
 
         <WelcomeMsg />
+        <Filters />
       </div>
     </header>
   );

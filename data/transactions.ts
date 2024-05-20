@@ -7,8 +7,8 @@ export const getTransactions = unstable_cache(
     const defaultTo = new Date();
     const defaultFrom = subDays(defaultTo, 30);
 
-    const startDate = from ? parse(from, 'yyy-MM-dd', new Date()) : defaultFrom;
-    const endDate = to ? parse(to, 'yyy-MM-dd', new Date()) : defaultTo;
+    const startDate = from ? parse(from, 'yyyy-MM-dd', new Date()) : defaultFrom;
+    const endDate = to ? parse(to, 'yyyy-MM-dd', new Date()) : defaultTo;
 
     return db.transaction.findMany({
       where: { spaceId: accountId, space: { userId }, date: { lte: endDate, gte: startDate } },
