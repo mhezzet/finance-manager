@@ -37,6 +37,7 @@ export const createTransaction = async (values: z.infer<typeof TransactionSchema
   });
 
   revalidateTag('transactions');
+  revalidateTag('summary');
 
   return { success: 'Transaction Created!' };
 };

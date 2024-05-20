@@ -20,6 +20,7 @@ export const deleteTransaction = async (id: string) => {
   await db.transaction.delete({ where: { id } });
 
   revalidateTag('transactions');
+  revalidateTag('summary');
   revalidateTag(id);
 
   return { success: 'Transaction deleted!' };

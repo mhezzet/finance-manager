@@ -25,6 +25,7 @@ export const deleteAccount = async (id: string) => {
   revalidateTag('accounts');
   revalidateTag('transactions');
   revalidateTag(id);
+  revalidateTag('summary');
 
   return { success: 'Account deleted!' };
 };

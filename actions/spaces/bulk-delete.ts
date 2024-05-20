@@ -23,7 +23,7 @@ export const deleteBulkAccounts = async (ids: string[]) => {
   });
 
   revalidateTag('accounts');
-  //TODO: revalidate summary
+  revalidateTag('summary');
 
   return { success: 'Accounts deleted' };
 };

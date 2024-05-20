@@ -10,7 +10,7 @@ export const CreateTransactionButton: React.FC<ICreateTransactionButton> = ({}) 
   const { onOpen } = useNewTransaction();
 
   return (
-    <Button size="sm" onClick={onOpen}>
+    <Button size="sm" className="w-full lg:w-auto" onClick={onOpen}>
       <Plus className="mr-2 size-4" />
       Add New
     </Button>

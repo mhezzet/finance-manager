@@ -9,8 +9,21 @@ import { TransactionsTable } from '@/components/transactions/transaction-table';
 import { getTransactions } from '@/data/transactions';
 import { getAccounts } from '@/data/space';
 import { getCategories } from '@/data/category';
+import { ImportTransactions } from '@/components/transactions/import-transactions';
+import { TransactionsImport } from '@/components/transactions/transactions-import';
 
-const TransactionPage: NextPage = async ({}) => {
+export enum Variants {
+  LIST = 'LIST',
+  IMPORT = 'IMPORT',
+}
+
+interface ITransactionPage {
+  searchParams: {
+    view?: Variants;
+  };
+}
+
+const TransactionPage: NextPage<ITransactionPage> = async ({ searchParams }) => {
   const user = await currentUser();
   const transactions = await getTransactions(user?.id || '');
   const accounts = await getAccounts(user?.id || '');
@@ -22,12 +35,19 @@ const TransactionPage: NextPage = async ({}) => {
     label: category.name,
   }));
 
+  if (searchParams?.view === Variants.IMPORT) {
+    return <TransactionsImport />;
+  }
+
   return (
     <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
       <Card className="border-none drop-shadow-sm">
         <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
           <CardTitle className="line-clamp-1 text-xl">Transactions History</CardTitle>
-          <CreateTransactionButton />
+          <div className="flex flex-col items-center gap-x-2 gap-y-2 lg:flex-row">
+            <ImportTransactions />
+            <CreateTransactionButton />
+          </div>
         </CardHeader>
         <CardContent>
           <Suspense

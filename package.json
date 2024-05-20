@@ -46,6 +46,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
     "react-icons": "^5.2.0",
+    "react-papaparse": "^4.4.0",
     "react-select": "^5.8.0",
     "react-spinners": "^0.13.8",
     "react-use": "^17.5.0",

@@ -30,6 +30,7 @@ export const updateAccount = async (values: z.infer<typeof CreateSpaceSchema>, i
 
   revalidateTag('accounts');
   revalidateTag('transactions');
+  revalidateTag('summary');
   revalidateTag(id);
 
   return { success: 'Account updated!' };

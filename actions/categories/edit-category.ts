@@ -30,6 +30,7 @@ export const updateCategory = async (values: z.infer<typeof CreateCategorySchema
 
   revalidateTag('categories');
   revalidateTag('transactions');
+  revalidateTag('summary');
 
   revalidateTag(id);
 

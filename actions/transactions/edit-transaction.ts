@@ -43,6 +43,7 @@ export const updateTransaction = async (
 
   revalidateTag('transactions');
   revalidateTag(transactionId);
+  revalidateTag('summary');
 
   return { success: 'Account updated!' };
 };

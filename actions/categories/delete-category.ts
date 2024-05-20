@@ -23,6 +23,7 @@ export const deleteCategory = async (id: string) => {
   revalidateTag('categories');
   revalidateTag('transactions');
   revalidateTag(id);
+  revalidateTag('summary');
 
   return { success: 'Catagories deleted!' };
 };

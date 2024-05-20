@@ -23,7 +23,7 @@ export const deleteBulkCategories = async (ids: string[]) => {
   });
 
   revalidateTag('categories');
-  //TODO: revalidate summary
+  revalidateTag('summary');
 
   return { success: 'Category deleted' };
 };

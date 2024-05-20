@@ -25,7 +25,8 @@ export const createCategory = async (values: z.infer<typeof CreateCategorySchema
     data: { name: values.name, userId: user.id },
   });
 
-  revalidateTag('catagories');
+  revalidateTag('categories');
+  revalidateTag('summary');
 
   return { success: 'Category Created!' };
 };

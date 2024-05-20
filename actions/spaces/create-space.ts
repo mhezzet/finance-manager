@@ -26,6 +26,7 @@ export const createSpace = async (values: z.infer<typeof CreateSpaceSchema>) => 
   });
 
   revalidateTag('accounts');
+  revalidateTag('summary');
 
   return { success: 'Account Created!' };
 };
