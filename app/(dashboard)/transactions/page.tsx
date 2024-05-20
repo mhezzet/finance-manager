@@ -11,11 +11,7 @@ import { getAccounts } from '@/data/space';
 import { getCategories } from '@/data/category';
 import { ImportTransactions } from '@/components/transactions/import-transactions';
 import { TransactionsImport } from '@/components/transactions/transactions-import';
-
-export enum Variants {
-  LIST = 'LIST',
-  IMPORT = 'IMPORT',
-}
+import { Variants } from '@/lib/custom-types';
 
 interface ITransactionPage {
   searchParams: {
