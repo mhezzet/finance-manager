@@ -14,8 +14,8 @@ export const DateFilter: React.FC<IDateFilter> = ({}) => {
   const [to, setTo] = useQueryState('to', { shallow: false });
   const [from, setFrom] = useQueryState('from', { shallow: false });
 
-  const defaultTo = new Date();
-  const defaultFrom = subDays(defaultTo, 30);
+  const defaultTo = new Date('2024-05-28');
+  const defaultFrom = new Date('2024-03-28');
 
   const paramState = {
     from: from ? new Date(from) : defaultFrom,

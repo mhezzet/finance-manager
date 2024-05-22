@@ -4,8 +4,8 @@ import { parse, subDays } from 'date-fns';
 
 export const getTransactions = unstable_cache(
   (userId: string, to?: string, from?: string, accountId?: string) => {
-    const defaultTo = new Date();
-    const defaultFrom = subDays(defaultTo, 30);
+    const defaultTo = new Date('2024-05-28');
+    const defaultFrom = new Date('2024-03-28');
 
     const startDate = from ? parse(from, 'yyyy-MM-dd', new Date()) : defaultFrom;
     const endDate = to ? parse(to, 'yyyy-MM-dd', new Date()) : defaultTo;

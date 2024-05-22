@@ -52,7 +52,11 @@ export const CategoryForm: React.FC<IAccountForm> = (props) => {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input disabled={disabled} placeholder="eg. Cash, Bank, Credit Card" {...field} />
+                <Input
+                  disabled={disabled}
+                  placeholder="eg. Food, Top-up, Card Payment"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

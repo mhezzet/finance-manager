@@ -20,8 +20,8 @@ export type Summary = {
 
 export const getSummary = unstable_cache(
   async (userId: string, from?: string, to?: string, accountId?: string): Promise<Summary> => {
-    const defaultTo = addDays(new Date(), 1);
-    const defaultFrom = subDays(defaultTo, 30);
+    const defaultTo = new Date('2024-05-28');
+    const defaultFrom = new Date('2024-03-28');
 
     const startDate = from ? parse(from, 'yyyy-MM-dd', new Date()) : defaultFrom;
     const endDate = to ? parse(to, 'yyyy-MM-dd', new Date()) : defaultTo;
@@ -96,20 +96,22 @@ export const getSummary = unstable_cache(
       },
     });
 
-    const categories = transactions.reduce(
-      (categories, transaction) => {
-        const categoryName = transaction.category?.name || 'other';
-        const categoryAmount = categories[categoryName] || 0;
-        const transactionAmount = +(parseFloat(transaction.amount) / 1000).toFixed(2);
+    const categories = transactions
+      .filter((trans) => parseFloat(trans.amount) < 0)
+      .reduce(
+        (categories, transaction) => {
+          const categoryName = transaction.category?.name || 'other';
+          const categoryAmount = categories[categoryName] || 0;
+          const transactionAmount = +(parseFloat(transaction.amount) / 1000).toFixed(2);
 
-        return {
-          ...categories,
-          [categoryName]:
-            categoryAmount + (transactionAmount < 0 ? Math.abs(transactionAmount) : 0),
-        };
-      },
-      {} as Record<string, number>,
-    );
+          return {
+            ...categories,
+            [categoryName]:
+              categoryAmount + (transactionAmount < 0 ? Math.abs(transactionAmount) : 0),
+          };
+        },
+        {} as Record<string, number>,
+      );
 
     const activities = transactions.reduce(
       (acc, transaction) => {

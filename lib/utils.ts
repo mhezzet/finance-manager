@@ -68,8 +68,8 @@ type Period = {
 };
 
 export const formatDateRange = (period?: Period) => {
-  const defaultTo = new Date();
-  const defaultFrom = subDays(defaultTo, 30);
+  const defaultTo = new Date('2024-05-28');
+  const defaultFrom = new Date('2024-03-28');
 
   if (!period?.from) {
     return `${format(defaultFrom, 'LLL dd')} - ${format(defaultTo, 'LLL dd, y')}`;
